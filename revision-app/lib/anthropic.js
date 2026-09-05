@@ -1,43 +1,39 @@
 // Ce fichier n'est jamais importé depuis une page ou un composant React :
 // il n'est appelé que depuis pages/api/*, qui s'exécutent côté serveur.
-// La clé GEMINI_API_KEY n'atteint donc jamais le navigateur de l'élève.
+// La clé GROQ_API_KEY n'atteint donc jamais le navigateur de l'élève.
 
 export async function appellerClaude({ system, messages, maxTokens = 1000 }) {
-  const apiKey = process.env.GEMINI_API_KEY;
-  const modele = 'gemini-1.5-flash';
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${modele}:generateContent?key=${apiKey}`;
+  const apiKey = process.env.GROQ_API_KEY;
+  const modele = 'llama-3.3-70b-versatile';
 
-  const contents = messages.map((m) => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }],
-  }));
+  const messagesFormates = [
+    ...(system ? [{ role: 'system', content: system }] : []),
+    ...messages.map((m) => ({ role: m.role, content: m.content })),
+  ];
 
-  const body = {
-    contents,
-    generationConfig: { maxOutputTokens: maxTokens },
-  };
-  if (system) {
-    body.systemInstruction = { parts: [{ text: system }] };
-  }
-
-  const response = await fetch(url, {
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: modele,
+      messages: messagesFormates,
+      max_tokens: maxTokens,
+    }),
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Erreur API Gemini (${response.status}) : ${errText}`);
+    throw new Error(`Erreur API Groq (${response.status}) : ${errText}`);
   }
 
   const data = await response.json();
-  const texte = (data.candidates?.[0]?.content?.parts || [])
-    .map((p) => p.text || '')
-    .join('\n');
-  return texte;
+  return data.choices?.[0]?.message?.content || '';
 }
 
+// Extrait un objet JSON même si le modèle a ajouté un peu de texte autour.
 export function extraireJSON(texte) {
   const start = texte.indexOf('{');
   const end = texte.lastIndexOf('}');
