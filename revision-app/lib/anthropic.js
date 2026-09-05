@@ -4,7 +4,7 @@
 
 export async function appellerClaude({ system, messages, maxTokens = 1000 }) {
   const apiKey = process.env.GROQ_API_KEY;
-  const modele = 'llama-3.3-70b-versatile';
+  const modele = 'openai/gpt-oss-120b';
 
   const messagesFormates = [
     ...(system ? [{ role: 'system', content: system }] : []),
