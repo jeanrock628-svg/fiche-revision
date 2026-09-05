@@ -57,7 +57,7 @@ export default function NouveauCours() {
       router.push('/dashboard');
     } catch (err) {
       console.error(err);
-      setErreur(`Erreur : ${err.message}`);
+      setErreur("L'analyse du cours a échoué. Réessaie dans un instant.");
       setEtape('erreur');
     }
   }
