@@ -1,0 +1,32 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #F5F2EA;
+  color: #1C2333;
+}
+a { color: #3B5B84; }
+.page { max-width: 640px; margin: 0 auto; padding: 40px 20px; }
+h1 { font-size: 26px; margin-bottom: 6px; }
+p.intro { color: #4A5468; margin-top: 0; }
+.field { margin-bottom: 18px; }
+label { display: block; font-size: 13px; color: #4A5468; margin-bottom: 6px; }
+input, select, textarea {
+  width: 100%; font-size: 15px; padding: 10px 12px;
+  border: 1px solid #C9C2B0; border-radius: 4px; font-family: inherit;
+}
+textarea { min-height: 160px; resize: vertical; }
+button.btn {
+  font-size: 15px; padding: 11px 20px; border-radius: 4px; border: none;
+  cursor: pointer; font-family: inherit;
+}
+.btn-primary { background: #C1392B; color: #fff; width: 100%; }
+.btn-primary:disabled { background: #c8c2b4; cursor: not-allowed; }
+.btn-secondary { background: transparent; border: 1px solid #1C2333; color: #1C2333; }
+.error { color: #96271C; font-size: 14px; margin-top: 8px; }
+.card { border: 1px solid #E2DCC9; border-radius: 6px; padding: 18px; margin-bottom: 14px; background: rgba(255,255,255,0.6); }
+.top-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+.top-nav a { text-decoration: none; font-size: 14px; }
+.choice { display: block; width: 100%; text-align: left; padding: 9px 12px; margin-bottom: 7px; border: 1px solid #C9C2B0; border-radius: 4px; background: transparent; cursor: pointer; font-family: inherit; font-size: 14px; }
+.choice.correct { border-color: #3C7A5C; background: rgba(60,122,92,0.1); }
+.choice.wrong { border-color: #C1392B; background: rgba(193,57,43,0.08); }
